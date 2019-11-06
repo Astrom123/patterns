@@ -2,7 +2,7 @@
 
 namespace Example_04.Homework.Clients
 {
-    public interface IOrmAdapter
+    public interface IOrmAdapter // ITarget
     {
         (DbUserEntity, DbUserInfoEntity) Get(int userId);
 

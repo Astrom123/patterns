@@ -7,26 +7,50 @@ namespace Example_04.Homework.Clients
 {
     public class UserClient
     {
-        private IOrmAdapter _ormAdapter;
+        private readonly IOrmAdapter _firstOrm;
+
+        private readonly IOrmAdapter _secondOrm;
+
+        private bool _useFirstOrm = true;
 
         public (DbUserEntity, DbUserInfoEntity) Get(int userId)
         {
-            return _ormAdapter.Get(userId);
+            if (_useFirstOrm)
+            {
+               return _firstOrm.Get(userId);
+            }
+
+            return _secondOrm.Get(userId);
         }
 
         public void Add(DbUserEntity user, DbUserInfoEntity userInfo)
         {
-            _ormAdapter.Add(user, userInfo);
+            if (_useFirstOrm)
+            {
+                _firstOrm.Add(user, userInfo);
+            }
+            else
+            {
+                _secondOrm.Add(user, userInfo);
+            }
         }
 
         public void Remove(int userId)
         {
-            _ormAdapter.Remove(userId);
+            if (_useFirstOrm)
+            {
+                _firstOrm.Remove(userId);
+            }
+            else
+            {
+                _secondOrm.Remove(userId);
+            }
         }
 
-        public UserClient(IOrmAdapter ormAdapter)
+        public UserClient(IOrmAdapter firstOrm, IOrmAdapter secondOrm)
         {
-            _ormAdapter = ormAdapter;
+            _firstOrm = firstOrm;
+            _secondOrm = secondOrm;
         }
     }
 }
